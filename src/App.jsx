@@ -53,6 +53,21 @@ function App() {
     }
   };
 
+  //delete task
+  const deletetask = async (id) => {
+    try {
+      console.log(`id ${id}`)
+      await fetch(`http://localhost:3000/deletetask/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+      gettasks();
+    } catch (error) {
+      console.log("Error deleting task");
+    }
+  };
+
+
   return (
     <>
       <div className="bg-slate-500 h-screen w-screen flex justify-center items-center">
@@ -109,7 +124,7 @@ function App() {
                     >
                       {(updating===task._id)?"save":"edit"}
                     </button>
-                    <button className="bg-rose-400 px-2 rounded-2xl">
+                    <button className="bg-rose-400 px-2 rounded-2xl" onClick={()=>deletetask(task._id)}>
                       delete
                     </button>
                   </div>
