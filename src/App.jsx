@@ -37,6 +37,8 @@ function App() {
     }
   }
 
+  //update task
+
   return (
     <>
       <div className="bg-slate-500 h-screen w-screen flex justify-center items-center">
@@ -57,12 +59,20 @@ function App() {
               Add
             </button>
           </div>
-          <div className="bg-amber-100 h-8/9 rounded-2xl p-1 mt-2 flex justify-center">
+          <div className="bg-amber-100 h-8/9 rounded-2xl p-1 mt-2 flex-row justify-center">
             <h1 className="text font-bold">Your Tasks</h1>
             {
               task.length>0?task.map((task,index)=>(
-                  <div key={index} className="flex">
-                    <div>{task.title}</div>
+                  <div key={index} className="flex w-full mt-1 mb-1 justify-between">
+                      <div className="flex">
+                      <h1 className="font-bold">Title:</h1>
+                      {task.title}
+                      </div>
+                      <div className="flex space-x-2 justify-center items-center">
+                      <h1 className="flex">Done<input type="checkbox" className="w-10"/></h1>
+                      <button className="bg-amber-500 px-2 rounded-2xl">edit</button>
+                      <button className="bg-rose-400 px-2 rounded-2xl">delete</button>
+                      </div>
                   </div>
               )):<div>
                 no task available
