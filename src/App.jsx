@@ -43,7 +43,7 @@ function App() {
   const updatetask = async (id,updatedtitle) => {
     try {
       console.log(`sending ${id} ${updatedtitle}`)
-      const res = await fetch("http://localhost:3000/updatetask/${taskid}", {
+      const res = await fetch(`http://localhost:3000/updatetask/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({title:updatedtitle}),
