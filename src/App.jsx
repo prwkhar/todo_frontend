@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { Analytics } from "@vercel/analytics/react"
 import "./App.css";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
 function App() {
+  <Analytics/>
   //task to fetch all the tasks
   const [task, settask] = useState([]);
 
