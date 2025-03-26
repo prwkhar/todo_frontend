@@ -6,18 +6,20 @@ function App() {
   const [newtask, setnewtask] = useState("");
   const [updating, setupdating] = useState(false);
   const [edittitle,setedittitle]=useState(null);
+  const [completedtask,setcompletedtask] = useState([]);
   //get the task from the backend
   const gettasks = async () => {
     try {
       const res = await fetch("http://localhost:3000/");
       const data = await res.json();
       console.log(data.tasks);
-      const t = data.tasks;
       settask(data.tasks);
+      setcompletedtask(data.completed);
     } catch (error) {
       console.log("error fetching the data");
     }
   };
+
   useEffect(() => {
     gettasks();
   }, []);
@@ -47,7 +49,8 @@ function App() {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({title:updatedtitle}),
-      });
+      })
+      gettasks();
     } catch (error) {
       console.log("error sending update");
     }
@@ -66,7 +69,21 @@ function App() {
       console.log("Error deleting task");
     }
   };
-
+  //update status
+  const updatestatus = async(id,status)=>{
+    console.log(`update status ${id} ${status}`)
+    try {
+      const res=await fetch(`http://localhost:3000/updatestatus/${id}`,{
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({completed:status}),
+      }
+    )
+    gettasks();
+    } catch (error) {
+      console.log("error sending status update");
+    }
+  }
 
   return (
     <>
@@ -74,15 +91,16 @@ function App() {
         <div className="h-[500px] w-[600px] bg-amber-200  p-2 rounded-2xl">
           <div className="flex mt-2">
             <input
-              className="bg-amber-50 p-1 text-center w-3/4 h-[40px] rounded-xl"
+              className="bg-amber-50 p-1 text-center w-4/5 h-[40px] rounded-xl"
               type="text"
+              value={newtask}
               placeholder="Add Task"
               onChange={(e) => {
                 setnewtask(e.target.value);
               }}
             />
             <button
-              className="bg-amber-700 px-4 w-1/s4 rounded-2xl"
+              className="bg-amber-700 px-4 w-1/5 rounded-2xl hover:bg-amber-600"
               onClick={addtask}
             >
               Add
@@ -96,29 +114,27 @@ function App() {
                   key={index}
                   className="flex w-full mt-1 mb-1 justify-between"
                 >
-                  <div className="flex">
+                  <div className="flex w-full">
                     {(updating===task._id)?(
                     <input
+                    className="w-full bg-blue-300 border border-blue-600 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     type="text"
                     value={edittitle}
-                    onChange={(e)=>(setedittitle(e.target.value))}
-                    />)
-                      :(<div>
-                      <h1 className="font-bold">Title:</h1>
+                    onChange={(e) => setedittitle(e.target.value)}
+                    autoFocus
+                  />)
+                      :(<div className="flex">
+                        <p>{index+1}.</p>
                       {task.title}</div>)
                     }
                   </div>
                   <div className="flex space-x-2 justify-center items-center">
-                    <h1 className="flex">
-                      Done
-                      <input type="checkbox" className="w-10" />
-                    </h1>
                     <button
                       className="bg-amber-500 px-2 rounded-2xl"
                       onClick={() => 
                         (updating!==task._id)?
                         (setupdating(task._id),setedittitle(task.title)):(
-                          updatetask(task._id,edittitle)
+                          updatetask(task._id,edittitle),setupdating(false)
                         )
                       }
                     >
@@ -127,12 +143,24 @@ function App() {
                     <button className="bg-rose-400 px-2 rounded-2xl" onClick={()=>deletetask(task._id)}>
                       delete
                     </button>
+                    <div className="flex items-center w-full h-full"><input type="checkbox" checked={task.completed} onChange={()=>{updatestatus(task._id,!task.completed)}} className="w-10 h-full"/></div>
                   </div>
                 </div>
               ))
             ) : (
               <div>no task available</div>
             )}
+            {
+              <div className="flex flex-col">
+                <div>
+                {completedtask.length>0&&<h1 className="font-bold">Completed Tasks</h1>}
+                {completedtask.length>0&&completedtask.map((task,index)=>(<div key={index} className="flex justify-between mt-1 mb-1">
+                      <p className="line-through">{task.title}</p>
+                      <input type="checkbox" className="w-10"checked={task.completed} onChange={()=>{updatestatus(task._id,!task.completed)}}/>
+                      </div>))}
+                </div>
+              </div>
+            }
           </div>
         </div>
       </div>
