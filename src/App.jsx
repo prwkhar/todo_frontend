@@ -36,7 +36,6 @@ function App() {
     try {
       const res = await fetch(`${import.meta.env.VITE_SERVER}/`);
       const data = await res.json();
-      console.log(data.tasks);
       settask(data.tasks);
       setcompletedtask(data.completed);
     } catch (error) {
@@ -61,11 +60,9 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: newtask, description: newdesc }),
       });
-      console.log(JSON.stringify({ title: newtask }));
       setnewdesc("");
       setnewtask("");
       gettasks();
-      console.log("send task to the server");
     } catch (error) {
       console.log("error adding the task");
     }
@@ -76,7 +73,6 @@ function App() {
   const updatetask = async (id, updatedtitle) => {
     setloading(true);
     try {
-      console.log(`sending ${id} ${updatedtitle}`);
       const res = await fetch(`${import.meta.env.VITE_SERVER}/updatetask/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -93,7 +89,6 @@ function App() {
   const deletetask = async (id) => {
     setloading(true);
     try {
-      console.log(`id ${id}`);
       await fetch(`${import.meta.env.VITE_SERVER}/deletetask/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
@@ -109,7 +104,6 @@ function App() {
   //update status
   const updatestatus = async (id, status) => {
     setloading(true);
-    console.log(`update status ${id} ${status}`);
     try {
       const res = await fetch(`${import.meta.env.VITE_SERVER}/updatestatus/${id}`, {
         method: "PUT",
