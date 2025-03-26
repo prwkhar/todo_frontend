@@ -14,7 +14,7 @@ function App() {
   //get the task from the backend
   const gettasks = async () => {
     try {
-      const res = await fetch("http://localhost:3000/");
+      const res = await fetch(`${import.meta.env.VITE_SERVER}/`);
       const data = await res.json();
       console.log(data.tasks);
       settask(data.tasks);
@@ -32,7 +32,7 @@ function App() {
   //add the task to the backend
   const addtask = async () => {
     try {
-      const res = await fetch("http://localhost:3000/addtask", {
+      const res = await fetch(`${import.meta.env.VITE_SERVER}/addtask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: newtask, description: newdesc }),
@@ -51,7 +51,7 @@ function App() {
   const updatetask = async (id, updatedtitle) => {
     try {
       console.log(`sending ${id} ${updatedtitle}`);
-      const res = await fetch(`http://localhost:3000/updatetask/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_SERVER}/updatetask/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: updatedtitle }),
@@ -66,7 +66,7 @@ function App() {
   const deletetask = async (id) => {
     try {
       console.log(`id ${id}`);
-      await fetch(`http://localhost:3000/deletetask/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER}/deletetask/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
@@ -81,7 +81,7 @@ function App() {
   const updatestatus = async (id, status) => {
     console.log(`update status ${id} ${status}`);
     try {
-      const res = await fetch(`http://localhost:3000/updatestatus/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_SERVER}/updatestatus/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ completed: status }),
