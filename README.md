@@ -16,7 +16,7 @@ Ensure you have the following installed:
 
 ## Backend API Setup
 Before running the frontend, you need to set up the backend API. Follow the instructions in the backend repository:
-[Todo API Backend](<your-backend-repo-link>)
+[Todo API Backend](https://github.com/prwkhar/todo_backend)
 
 ## Installation & Setup
 
