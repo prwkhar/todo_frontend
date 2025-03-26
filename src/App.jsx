@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
 function App() {
   const [task, settask] = useState([]);
@@ -10,9 +11,11 @@ function App() {
   const [edittitle, setedittitle] = useState(null);
   const [completedtask, setcompletedtask] = useState([]);
   const [showdesc, setshowdesc] = useState(false);
+  const [loading,setloading] = useState(false);
 
   //get the task from the backend
   const gettasks = async () => {
+    setloading(true);
     try {
       const res = await fetch(`${import.meta.env.VITE_SERVER}/`);
       const data = await res.json();
@@ -22,15 +25,19 @@ function App() {
     } catch (error) {
       console.log("error fetching the data");
     }
+    setloading(false);
   };
 
   //use effect hook to load all the task
   useEffect(() => {
+    setloading(true);
     gettasks();
+    setloading(false);
   }, []);
 
   //add the task to the backend
   const addtask = async () => {
+    setloading(true);
     try {
       const res = await fetch(`${import.meta.env.VITE_SERVER}/addtask`, {
         method: "POST",
@@ -45,10 +52,12 @@ function App() {
     } catch (error) {
       console.log("error adding the task");
     }
+    setloading(false);
   };
 
   //update task
   const updatetask = async (id, updatedtitle) => {
+    setloading(true);
     try {
       console.log(`sending ${id} ${updatedtitle}`);
       const res = await fetch(`${import.meta.env.VITE_SERVER}/updatetask/${id}`, {
@@ -60,10 +69,12 @@ function App() {
     } catch (error) {
       console.log("error sending update");
     }
+    setloading(false);
   };
 
   //delete task
   const deletetask = async (id) => {
+    setloading(true);
     try {
       console.log(`id ${id}`);
       await fetch(`${import.meta.env.VITE_SERVER}/deletetask/${id}`, {
@@ -74,11 +85,13 @@ function App() {
     } catch (error) {
       console.log("Error deleting task");
     }
+    setloading(false);
   };
 
 
   //update status
   const updatestatus = async (id, status) => {
+    setloading(true);
     console.log(`update status ${id} ${status}`);
     try {
       const res = await fetch(`${import.meta.env.VITE_SERVER}/updatestatus/${id}`, {
@@ -90,6 +103,7 @@ function App() {
     } catch (error) {
       console.log("error sending status update");
     }
+    setloading(false);
   };
 
 
@@ -238,6 +252,13 @@ function App() {
             </div>
           </div>
         )}
+          {loading && (
+            <div className="fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
+              <div className="bg-white p-4 rounded-xl shadow-lg text-xl font-bold">
+                Loading...
+              </div>
+            </div>
+          )}
       </div>
     </>
   );
