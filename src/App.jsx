@@ -4,7 +4,6 @@ import "./App.css";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
 function App() {
-  <Analytics/>
   //task to fetch all the tasks
   const [task, settask] = useState([]);
 
@@ -122,6 +121,7 @@ function App() {
 
   return (
     <>
+      <Analytics/>
       <div className="bg-slate-500 h-screen w-screen flex justify-center items-center">
         <div className="h-[500px] w-[600px] bg-amber-200  p-2 rounded-2xl fixed">
           <div className="h-1/6">
