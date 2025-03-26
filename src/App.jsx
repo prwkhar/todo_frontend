@@ -3,14 +3,31 @@ import "./App.css";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
 function App() {
+  //task to fetch all the tasks
   const [task, settask] = useState([]);
+
+  //new task for updation of task
   const [newtask, setnewtask] = useState("");
+
+  //new desc for updation of desc
   const [newdesc, setnewdesc] = useState("");
+
+  //view desc if to render the view desc column
   const [viewdesc, setnewviewdesc] = useState("");
+
+  //updating tells the state when the task is being edited
   const [updating, setupdating] = useState(false);
+
+  //edittitle make changes to the title
   const [edittitle, setedittitle] = useState(null);
+
+  //store the task whose status is completed
   const [completedtask, setcompletedtask] = useState([]);
+
+  //to show the desc of the task
   const [showdesc, setshowdesc] = useState(false);
+
+  //for loading screen while fetching the data from backend
   const [loading,setloading] = useState(false);
 
   //get the task from the backend
