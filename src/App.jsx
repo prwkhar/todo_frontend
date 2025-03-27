@@ -123,11 +123,11 @@ function App() {
     <>
       <Analytics/>
       <div className="bg-slate-500 h-screen w-screen flex justify-center items-center">
-        <div className="h-[500px] w-[600px] bg-amber-200  p-2 rounded-2xl fixed">
+      <div className="w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%] h-[70%] bg-amber-200 p-2 rounded-2xl fixed">
           <div className="h-1/6">
             <div className="flex mt-2">
               <input
-                className="bg-amber-50 p-1 text-center w-4/5 h-[40px] rounded-xl"
+                className="bg-amber-50 p-1 text-center w-4/5  h-[40px] rounded-xl"
                 type="text"
                 value={newtask}
                 placeholder="Add Task"
@@ -189,7 +189,7 @@ function App() {
                   </div>
                   <div className="flex space-x-2 justify-center items-center">
                     <button
-                      className="bg-amber-500 px-2 rounded-2xl"
+                      className="bg-amber-500 px-2 hover:bg-amber-400 w-2/5 rounded-2xl"
                       onClick={() =>
                         updating !== task._id
                           ? (setupdating(task._id), setedittitle(task.title))
@@ -200,21 +200,19 @@ function App() {
                       {updating === task._id ? "save" : "edit"}
                     </button>
                     <button
-                      className="bg-rose-400 px-2 rounded-2xl"
+                      className="bg-rose-400 hover:bg-rose-500 px-2 text-center justify-center flex w-2/5 rounded-2xl"
                       onClick={() => deletetask(task._id)}
                     >
                       delete
                     </button>
-                    <div className="flex items-center w-full h-full">
-                      <input
+                    <input
                         type="checkbox"
                         checked={task.completed}
                         onChange={() => {
                           updatestatus(task._id, !task.completed);
                         }}
-                        className="w-10 h-full"
-                      />
-                    </div>
+                        className="w-full h-full"
+                    />
                   </div>
                 </div>
               ))
